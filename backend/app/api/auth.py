@@ -10,7 +10,7 @@ from app.schemas.user import UserResponse
 from app.utils.jwt import create_access_token
 from app.utils.password import verify_password
 
-router = APIRouter(prefix="/api/auth", tags=["权限验证"])
+router = APIRouter(prefix="/auth", tags=["权限验证"])
 
 @router.post("/login")
 def login(data: LoginRequest, db: Session = Depends(get_db)):
