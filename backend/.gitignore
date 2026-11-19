@@ -1,0 +1,24 @@
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 环境变量与敏感配置
+.env
+.env.*
+!**/.env.example
+
+# 本地数据库与日志
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# IDE / 系统
+.idea/
+.vscode/
+.DS_Store
