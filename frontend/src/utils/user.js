@@ -9,4 +9,20 @@ export function useUser() {
         setUserInfo(data.user)
         userInfo.value = data.user
     }
+
+    function updateUser(user) {
+        setUserInfo(user)
+        userInfo.value = user
+    }
+
+    function reloadUser() {
+        userInfo.value = getUserInfo()
+    }
+
+    return {
+        userInfo,
+        saveLoginData,
+        updateUser,
+        reloadUser
+    }
 }
