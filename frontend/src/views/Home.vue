@@ -1,9 +1,10 @@
 <script setup>
-
+import { useUser } from '@/utils/user'
+const { userInfo } = useUser()
 </script>
 
 <template>
-    <div>系统首页</div>
+    <div>欢迎您: {{ userInfo?.username }}</div>
 </template>
 
 <style scoped>

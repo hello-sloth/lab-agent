@@ -14,7 +14,7 @@ app.use(router)
 app.use(ElementPlus, {
     locale: zhCn
 })
-for (const [] of Object.entries(ElementPlusIconsVue)) {
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 app.mount('#app')
