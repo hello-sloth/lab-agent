@@ -9,6 +9,8 @@ const { userInfo } = useUser()
 const handleCommand = (command) => {
   if (command === 'profile') {
     router.push('/manager/profile')
+  } else if (command === 'password') {
+    router.push('/manager/password')
   } else if (command === 'logout') {
     logout()
     router.push('/login')
@@ -43,7 +45,8 @@ const handleCommand = (command) => {
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                <el-dropdown-item command="password">修改密码</el-dropdown-item>
+                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -51,7 +54,7 @@ const handleCommand = (command) => {
       </el-header>
       <el-container>
         <el-aside width="220px">
-          <el-menu router style="height: 100%" default-active="/manager/home">
+          <el-menu router :default-active="router.currentRoute.value.path" style="height: 100%" default-active="/home">
             <el-menu-item index="/manager/home">
               <el-icon><icon-menu /></el-icon>
               <span>系统首页</span>

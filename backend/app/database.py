@@ -25,7 +25,7 @@ def get_db():
 
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(
-        primary_key=True, autoincrement=False, comment="主键", sort_order=-1
+        primary_key=True, autoincrement=True, comment="主键", sort_order=-1
     )
     create_time: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now, comment="创建时间", sort_order=1

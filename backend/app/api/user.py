@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 
 from app.common.response import Response
 from app.database import get_db
-from app.dependencies.auth import get_current_user
+from app.dependencies.auth import get_current_user, get_current_admin
 from app.models.user import User
-from app.schemas.user import UserUpdateRequest
+from app.schemas.user import UserUpdateRequest, PasswordUpdateRequest
 from app.services import user_service
 
 router = APIRouter(prefix="/user",tags=["用户信息接口"])
@@ -23,4 +23,25 @@ def update_user_info(
 ):
     """更新当前用户信息"""
     res = user_service.update_user_info(db, current_user, data)
+    return Response.success(data=res)
+
+
+@router.put("/password")
+def update_password(
+        data: PasswordUpdateRequest,
+        current_user: User = Depends(get_current_user),
+        db: Session = Depends(get_db),
+):
+    user_service.update_password(db, current_user, data)
+    return Response.success()
+
+@router.get("/list")
+def get_user_list(
+        page: int = 1,
+        page_size: int = 10,
+        username: str | None = None,
+        current_user: User = Depends(get_current_admin),
+        db: Session = Depends(get_db),
+):
+    res = user_service.get_user_page_list(db, page, page_size, username)
     return Response.success(data=res)

@@ -45,13 +45,14 @@ const login = async () => {
     <div class="login-box">
       <h1 style="font-size: 28px">实验室预约系统</h1>
       <div style="margin-top: 5px; margin-bottom: 30px">基于Agent智能预约系统</div>
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="0px" style="width: 100%" @keyup.enter="login">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="0px" style="width: 100%">
         <el-form-item prop="username">
           <el-input
             size="large"
             v-model="form.username"
             placeholder="请输入账号"
             :prefix-icon="User"
+            @keyup.enter="login"
           />
         </el-form-item>
         <el-form-item prop="password">
@@ -62,6 +63,7 @@ const login = async () => {
             placeholder="请输入密码"
             :prefix-icon="Lock"
             show-password
+            @keyup.enter="login"
           />
         </el-form-item>
         <div>

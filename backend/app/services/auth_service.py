@@ -8,7 +8,7 @@ from app.utils.jwt import create_access_token
 from app.utils.password import verify_password, hash_password
 
 
-def login(db: Session, data: LoginRequest) -> LoginResponse:
+def login(db: Session, data: LoginRequest):
     # 根据用户账号查询数据库
     user = db.query(User).filter(User.username == data.username).first()
     # 判断账号和密码是否正确
@@ -24,7 +24,7 @@ def login(db: Session, data: LoginRequest) -> LoginResponse:
         user=UserResponse.model_validate(user),
     )
 
-def register(db: Session, data: RegisterRequest) -> None:
+def register(db: Session, data: RegisterRequest):
     exists = db.query(User).filter(User.username == data.username).first()
     if exists:
         raise BusinessException(message="账号已存在")

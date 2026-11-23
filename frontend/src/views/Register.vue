@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { ref,reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { registerApi } from '@/api/auth'
@@ -73,7 +73,7 @@ const register = async () => {
             show-password
           />
         </el-form-item>
-        <el-form-item prop="confirmPasword">
+        <el-form-item prop="confirmPassword">
           <el-input
             type="password"
             size="large"

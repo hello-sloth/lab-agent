@@ -4,7 +4,7 @@ import { uploadFileApi } from '@/api/file'
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useUser } from '@/utils/user'
 import { ElMessage } from 'element-plus'
-
+import { Plus } from '@element-plus/icons-vue'
 
 const { updateUser } = useUser()
 
@@ -96,7 +96,7 @@ onMounted(() => {
       <el-form ref="formRef" :rules="rules" :model="form" label-width="80px" style="width: 100%; padding-right: 50px;" v-loading="loading">
         <el-form-item label="头像">
           <el-upload class="avatar-uploader" :http-request="handleFileUpload" :show-file-list="false" accept="image/jpeg, image/png, image/gif, image/webp" :before-upload="beforeAvatarUpload">
-            <img v-if="form.avatar" :src="form.avatar" class="avatar" />
+            <img v-if="form.avatar" :src="form.avatar" class="avatar" alt="" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
@@ -107,7 +107,7 @@ onMounted(() => {
           <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="角色">
-          <el-input disabled v-model="roleLabel" />
+          <el-input disabled v-model="roleLabel"  />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" placeholder="请输入邮箱" />
