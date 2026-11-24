@@ -1,5 +1,5 @@
 <script setup>
-import { getLab } from '@/api/lab'
+import { getLabApi } from '@/api/lab'
 import { ElMessage } from 'element-plus'
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -15,14 +15,14 @@ const params = {
 const loading = ref(false)
 const tableData = ref([])
 const total = ref(0)
-const handlReserveLab = () => {}
+const handleReserveLab = () => {}
 const handleReserveEquipment = () => {}
 const loadLab = async () => {
   if (!params.lab_id) {
     ElMessage.error('缺少实验室查询条件 [lab_id]')
     return
   }
-  const res = await getLab(params.lab_id)
+  const res = await getLabApi(params.lab_id)
   if (res.code === 200) {
     lab.value = res.data
   }
@@ -55,7 +55,7 @@ onMounted(() => {
             <span>{{ lab?.name || '实验室' }}设备列表</span>
           </div>
           <div>
-            <el-button type="primary" @click="handlReserveLab">预约实验室</el-button>
+            <el-button type="primary" @click="handleReserveLab">预约实验室</el-button>
             <el-button @click="router.push('/manager/lablist')">返回实验室列表</el-button>
           </div>
         </div>

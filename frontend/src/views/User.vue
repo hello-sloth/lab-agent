@@ -92,7 +92,7 @@ const handleEdit = (row) => {
 
 // 保存用户
 const handleSave = async () => {
-  const vaild = await formRef.value.validate().catch(() => false)
+  const valid = await formRef.value.validate().catch(() => false)
   if (!valid) return
   formLoading.value = true
   try {
@@ -122,7 +122,7 @@ const handleDelete = (row) => {
 
 const handleSearch = async () => {
   params.page = 1
-  load()
+  await load()
 }
 
 onMounted(() => {
@@ -182,6 +182,7 @@ onMounted(() => {
     <el-dialog v-model="dialogVisible" :title="form.id ? '编辑' : '新增'" width="450">
       <el-form ref="formRef" :rules="rules" :model="form" label-width="80px" style="width: 100%; padding-right: 30px; padding-top: 16px;" v-loading="loading">
         <el-form-item label="账号" prop="username">
+          <!-- form.id 有值 那就disabled 也就是编辑的情形 -->
           <el-input :disabled="!!form.id" v-model="form.username" placeholder="请输入账号" />
         </el-form-item>
         <el-form-item v-if="!form.id" label="密码" prop="password">
@@ -219,5 +220,29 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.avatar-uploader .avatar {
+  width: 130px;
+  height: 130px;
+  display: block;
+}
+</style>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 130px;
+  height: 130px;
+  text-align: center;
+}
 </style>

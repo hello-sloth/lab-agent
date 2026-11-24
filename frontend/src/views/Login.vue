@@ -52,6 +52,7 @@ const login = async () => {
             v-model="form.username"
             placeholder="请输入账号"
             :prefix-icon="User"
+            @keyup.enter="login"
           />
         </el-form-item>
         <el-form-item prop="password">
@@ -62,6 +63,7 @@ const login = async () => {
             placeholder="请输入密码"
             :prefix-icon="Lock"
             show-password
+            @keyup.enter="login"
           />
         </el-form-item>
         <div>

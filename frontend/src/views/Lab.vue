@@ -146,6 +146,7 @@ onMounted(() => {
         v-loading="loading"
       >
         <el-table-column prop="name" label="名称" />
+        <el-table-column prop="description" lable="简介" />
         <el-table-column prop="img" label="封面" width="90">
           <template #default="{ row }">
             <div style="min-height: 50px">
@@ -198,11 +199,18 @@ onMounted(() => {
         label-width="90px"
         style="width: 100%; padding-right: 30px; padding-top: 16px"
       >
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入实验室名称" />
+        </el-form-item>
+        <el-form-item label="简介">
+          <el-input type="textarea" v-model="form.description" placeholder="请输入简介" />
+        </el-form-item>
         <el-form-item label="封面">
           <el-upload
             :http-request="handleFileUpload"
             :show-file-list="false"
             accept="img/jpeg,img/png,img/gif,img/webp"
+            :before-upload="beforeAvatarUpload"
           >
             <img
               v-if="form.img"
@@ -211,9 +219,6 @@ onMounted(() => {
             />
             <el-button v-else type="primary" plain>上传封面</el-button>
           </el-upload>
-        </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入实验室名称" />
         </el-form-item>
         <el-form-item label="位置">
           <el-input v-model="form.location" placeholder="请输入位置" />
