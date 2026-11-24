@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router'
 import { logout } from '@/utils/auth'
-import { Menu as IconMenu, House, Setting, User } from '@element-plus/icons-vue'
+import { Menu as IconMenu, House, Setting, User, OfficeBuilding } from '@element-plus/icons-vue'
 import { useUser } from '@/utils/user'
 
 const { userInfo } = useUser()
@@ -54,20 +54,24 @@ const handleCommand = (command) => {
       </el-header>
       <el-container>
         <el-aside width="220px">
-          <el-menu router :default-active="router.currentRoute.value.path" style="height: 100%" default-active="/home">
+          <el-menu router :default-active="router.currentRoute.value.path" style="height: 100%" default-active="/manager/home">
             <el-menu-item index="/manager/home">
               <el-icon><icon-menu /></el-icon>
               <span>系统首页</span>
             </el-menu-item>
-            <el-menu-item index="/manager/lab">
+            <el-menu-item v-if="userInfo?.role === 'student'" index="/manager/lablist" >
+              <el-icon><OfficeBuilding /></el-icon>
+              <span>实验室列表</span>
+            </el-menu-item>
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/lab">
               <el-icon><House /></el-icon>
               <span>实验室管理</span>
             </el-menu-item>
-            <el-menu-item index="/manager/equ">
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/equipment">
               <el-icon><Setting /></el-icon>
               <span>设备列表管理</span>
             </el-menu-item>
-            <el-menu-item index="/manager/user">
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/user">
               <el-icon><User /></el-icon>
               <span>用户管理</span>
             </el-menu-item>

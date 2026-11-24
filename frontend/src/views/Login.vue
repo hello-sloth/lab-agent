@@ -25,7 +25,7 @@ const rules = {
 }
 
 const login = async () => {
-  const valid = await formRef.value.validate().catch(() => false)
+  const valid = await formRef.value.validate().catch(() => false) //表单验证
   if (!valid) return
   loadingValue.value = true
   try {
@@ -52,7 +52,6 @@ const login = async () => {
             v-model="form.username"
             placeholder="请输入账号"
             :prefix-icon="User"
-            @keyup.enter="login"
           />
         </el-form-item>
         <el-form-item prop="password">
@@ -63,7 +62,6 @@ const login = async () => {
             placeholder="请输入密码"
             :prefix-icon="Lock"
             show-password
-            @keyup.enter="login"
           />
         </el-form-item>
         <div>

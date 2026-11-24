@@ -11,6 +11,12 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = 'HS256'
     JWT_EXPIRE_HOURS: int = 24
 
+    # 七牛云配置
+    QINIU_ACCESS_KEY: str
+    QINIU_SECRET_KEY: str
+    QINIU_BUCKET_NAME: str
+    QINIU_DOMAIN: str  # 例如 "cdn.yourdomain.com"，不要带 http://
+
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env", env_file_encoding="utf-8"
     )
@@ -20,8 +26,6 @@ settings = Settings()
 
 
 
-UPLOAD_DIR = BASE_DIR / "uploads"
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 MAX_FILE_SIZE = 100 * 1024 * 1024  # 100MB
 
 

@@ -3,9 +3,11 @@ from fastapi.exceptions import ValidationException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from app.config import UPLOAD_DIR
 from app.database import engine, Base
 from app.models.user import User
+from app.models.lab import Lab
+from app.models.equipment import Equipment
+from app.models.reservation import Reservation
 from app.api import api
 
 from app.common.exceptions import (
@@ -42,7 +44,7 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, global_exception_handler)
 
 # 挂载静态的文件目录
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+# app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 @app.get("/")
 async def root():
     return {"message": "Hello World"}

@@ -5,7 +5,7 @@ from app.common.response import Response
 from app.database import get_db
 from app.dependencies.auth import get_current_user, get_current_admin
 from app.models.user import User
-from app.schemas.user import UserUpdateRequest, PasswordUpdateRequest
+from app.schemas.user import UserUpdateRequest, PasswordUpdateRequest, UserCreateRequest
 from app.services import user_service
 
 router = APIRouter(prefix="/user",tags=["用户信息接口"])
@@ -39,9 +39,37 @@ def update_password(
 def get_user_list(
         page: int = 1,
         page_size: int = 10,
-        username: str | None = None,
+        keywords: str | None = None,
         current_user: User = Depends(get_current_admin),
         db: Session = Depends(get_db),
 ):
-    res = user_service.get_user_page_list(db, page, page_size, username)
+    res = user_service.get_user_page_list(db, page, page_size, keywords)
     return Response.success(data=res)
+
+@router.post("")
+def create_user(
+        data: UserCreateRequest,
+        current_user: User = Depends(get_current_admin),
+        db: Session = Depends(get_db),
+):
+    res = user_service.create_user(db, data)
+    return Response.success(data=res)
+
+@router.put("/{user_id}")
+def update_user(
+        user_id: int,
+        data: UserUpdateRequest,
+        current_user: User = Depends(get_current_admin),
+        db: Session = Depends(get_db),
+):
+    res = user_service.update_user(db, user_id, data)
+    return Response.success(data=res)
+
+@router.delete("/{user_id}")
+def delete_user(
+        user_id: int,
+        current_user: User = Depends(get_current_admin),
+        db: Session = Depends(get_db),
+):
+    res = user_service.delete_user(db, user_id, current_user)
+    return Response.success()

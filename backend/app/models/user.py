@@ -27,7 +27,7 @@ class User(Base):
         String(50), comment="手机号"
     )
     avatar: Mapped[str | None] = mapped_column(
-        String(50), comment="头像"
+        String(255), comment="头像"
     )
     status: Mapped[int] = mapped_column(
         default=1, comment="状态: 0-禁用,1-正常"

@@ -1,18 +1,24 @@
 import os.path
-import shutil
+import tempfile
 import uuid
 from pathlib import Path
 import time
 
 from fastapi import APIRouter, UploadFile, File
+from qiniu import Auth, put_stream_v2
+
 from app.schemas.file import FileResponse
 
 from app.common.exceptions import BusinessException
 from app.common.response import Response
-from app.config import ALLOWED_EXTENSIONS, MAX_FILE_SIZE, UPLOAD_DIR
+from app.config import ALLOWED_EXTENSIONS, MAX_FILE_SIZE, settings
 
 router = APIRouter(prefix="/files", tags=["文件管理"])
 
+q = Auth(settings.QINIU_ACCESS_KEY, settings.QINIU_SECRET_KEY)
+
+# 七牛云上的统一目录前缀
+UPLOAD_PREFIX = "uploads/"
 @router.post("/upload")
 def upload(file: UploadFile = File(...)):
     """文件上传的接口"""
@@ -30,22 +36,32 @@ def upload(file: UploadFile = File(...)):
         raise BusinessException(
             message=f"文件不能超过 {MAX_FILE_SIZE // 1024 // 1024}MB"
         )
-    # 设置唯一的文件名称
-    disk_name = f"{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}{ext}"
-    # 文件存储的实际路径
-    save_path = UPLOAD_DIR / disk_name
+    # 生成唯一文件名，并拼接 uploads/ 前缀作为七牛云的 key
+    unique_name = f"{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}{ext}"
+    key = f"{UPLOAD_PREFIX}{unique_name}"
 
+    # 生成上传 Token
+    token = q.upload_token(settings.QINIU_BUCKET_NAME, key, 3600)
+    # 直接将 UploadFile 的流交给七牛云，无需临时文件
+    file.file.seek(0)
 
-    # 流式写文件
-    with open(save_path, "wb") as f:
-        shutil.copyfileobj(file.file, f)
+    ret, info = put_stream_v2(token, key, file.file, original_name, file.size, version='v2')
+
+    if info.status_code != 200 or not ret or ret.get("key") != key:
+        error_body = getattr(info, "text_body", "") or str(info)
+        raise BusinessException(message=f"七牛云上传失败: {error_body}")
+
+    # 访问 URL 也带上 uploads/ 前缀
+    url = f"https://{settings.QINIU_DOMAIN}/{key}"
 
     return Response.success(
         data=FileResponse(
             original_name=original_name,
-            disk_name=disk_name,
+            disk_name=key,      # 返回完整的 key（含 uploads/ 前缀）
             size=file.size,
-            url=f"/uploads/{disk_name}",
+            url=url,
         )
     )
+
+
 

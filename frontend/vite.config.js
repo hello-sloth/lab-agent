@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig({
   server: {
-    port: 5173,
+    port: 3000,
     // 开发代理，前端跨域配置
     proxy: {
       '/api': {
