@@ -1,8 +1,7 @@
+
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import ValidationException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-
 from app.database import engine, Base
 from app.models.user import User
 from app.models.lab import Lab
@@ -17,8 +16,12 @@ from app.common.exceptions import (
     validation_exception_handler,
     global_exception_handler,
 )
+from app.services import reservation_service
 
 Base.metadata.create_all(bind=engine)
+
+
+
 app = FastAPI()
 
 origins = [
@@ -42,9 +45,3 @@ app.add_exception_handler(ValidationException, validation_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 # 全局的异常兜底，必须放在最后注册
 app.add_exception_handler(Exception, global_exception_handler)
-
-# 挂载静态的文件目录
-# app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}

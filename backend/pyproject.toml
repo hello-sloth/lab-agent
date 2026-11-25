@@ -4,13 +4,20 @@ version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
     "bcrypt>=5.0.0",
+    "chromadb>=1.5.9",
     "fastapi>=0.165.0",
+    "langchain-core>=1.8.4",
+    "langchain-openai>=1.8.5",
+    "langgraph>=1.2.24",
+    "openai>=3.59.0",
     "psycopg>=3.3.9",
     "psycopg-binary>=3.3.9",
     "pydantic-settings>=2.16.3",
     "pyjwt>=2.15.1",
+    "pymilvus>=3.0.3",
     "python-multipart>=0.0.34",
     "qiniu>=7.18.0",
+    "sentence-transformers>=6.3.0",
     "sqlalchemy>=2.1.9",
     "uvicorn>=0.54.0",
 ]

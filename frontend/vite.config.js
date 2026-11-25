@@ -12,13 +12,21 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8000', // 后端地址
-        changeOrigin: true // 修改源，核心
+        changeOrigin: true, // 修改源，核心
+        configure: (proxy) => {
+          proxy.on('proxyRes', (proxyRes) => {
+            if (proxyRes.headers['content-type']?.includes('text/event-stream')) {
+              proxyRes.headers['cache-control'] = 'no-cache'
+              proxyRes.headers['x-accel-buffering'] = 'no'
+            }
+          })
+        }
       },
       // 静态文件代理 (头像图片)
-      '/uploads': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true
-      }
+      // '/uploads': {
+      //   target: 'http://127.0.0.1:8000',
+      //   changeOrigin: true
+      // }
     }
   },
   plugins: [

@@ -1,7 +1,7 @@
 <script setup>
 import router from '@/router'
 import { logout } from '@/utils/auth'
-import { Menu as IconMenu, House, Setting, User, OfficeBuilding } from '@element-plus/icons-vue'
+import { Menu as IconMenu, House, Setting, User, OfficeBuilding, Tickets, DocumentChecked, ChatDotRound  } from '@element-plus/icons-vue'
 import { useUser } from '@/utils/user'
 
 const { userInfo } = useUser()
@@ -59,6 +59,10 @@ const handleCommand = (command) => {
               <el-icon><icon-menu /></el-icon>
               <span>系统首页</span>
             </el-menu-item>
+            <el-menu-item index="/manager/ai-chat">
+              <el-icon><ChatDotRound /></el-icon>
+              <span>AI智能助手</span>
+            </el-menu-item>
             <el-menu-item v-if="userInfo?.role === 'student'" index="/manager/lablist" >
               <el-icon><OfficeBuilding /></el-icon>
               <span>实验室列表</span>
@@ -74,6 +78,15 @@ const handleCommand = (command) => {
             <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/user">
               <el-icon><User /></el-icon>
               <span>用户管理</span>
+            </el-menu-item>
+
+            <el-menu-item v-if="userInfo?.role === 'student'" index="/manager/my-reservation">
+              <el-icon><Tickets /></el-icon>
+              <span>我的预约</span>
+            </el-menu-item>
+            <el-menu-item v-if="userInfo?.role === 'admin'" index="/manager/audit-reservation">
+              <el-icon><DocumentChecked /></el-icon>
+              <span>预约审核</span>
             </el-menu-item>
           </el-menu>
         </el-aside>

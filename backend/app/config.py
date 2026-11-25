@@ -17,8 +17,23 @@ class Settings(BaseSettings):
     QINIU_BUCKET_NAME: str
     QINIU_DOMAIN: str  # 例如 "cdn.yourdomain.com"，不要带 http://
 
+    LLM_API_KEY: str
+    LLM_BASE_URL: str
+    LLM_MODEL: str
+
+    # Milvus 向量库配置
+    MILVUS_URL: str
+    MILVUS_TOKEN: str
+    MILVUS_DB: str   # 留空使用 default 数据库
+
+    # 嵌入模型配置（硅基流动 OpenAI 兼容接口）
+    EMBEDDING_MODEL: str = "BAAI/bge-large-zh-v1.5"
+    EMBEDDING_DIM: int = 1024
+
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env", env_file_encoding="utf-8"
+        env_file=BASE_DIR / ".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
     )
 
 
