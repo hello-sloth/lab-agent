@@ -6,7 +6,9 @@ import { getReservationPageList } from '@/api/reservation'
 const { userInfo } = useUser()
 const labTotal = ref('-')
 const reservationTotal = ref('-')
-const roleLabel = computed(() => (userInfo.value?.role === 'admin' ? '管理员' : '学生'))
+const roleLabel = computed(() =>
+  userInfo.value?.role === 'admin' ? '管理员' : '学生'
+)
 const statCards = computed(() => [
   { label: '开放实验室（约）', value: labTotal.value },
   { label: '与我相关的预约', value: reservationTotal.value },
@@ -107,7 +109,11 @@ onMounted(async () => {
         <span style="font-weight: 600">快捷入口</span>
       </template>
       <div style="display: flex; flex-wrap: wrap; gap: 12px">
-        <el-button v-for="item in shortcuts" :key="item.path" @click="$router.push(item.path)">
+        <el-button
+          v-for="item in shortcuts"
+          :key="item.path"
+          @click="$router.push(item.path)"
+        >
           {{ item.label }}
         </el-button>
       </div>
